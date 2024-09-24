@@ -1,9 +1,11 @@
 import qrcode
+import qrcode.image.svg
 
 from tkinter import *
 from tkinter import ttk
+from tkinter.filedialog import asksaveasfile
 
-from PIL import Image, ImageTk
+from PIL import ImageTk
 
 class GenerateQR:
     def __init__(self, root_original):
@@ -40,7 +42,7 @@ class GenerateQR:
         data_frame = ttk.Frame(main_frame, padding="12 12 12 12")
         data_label = ttk.Label(data_frame, text="Data to QR-Code-ify:")
         data_entry = ttk.Entry(data_frame, width=30, textvariable=self.data)
-        error_correction_label = ttk.Label(data_frame, text="Set Error Correction:")
+        error_correction_label = ttk.Label(data_frame, text="Set Error Correction:", padding="0 12 0 0")
         error_correction_radial_L = ttk.Radiobutton(data_frame, text="Low (7%)", value='L', variable=self.error_correction_choice)
         error_correction_radial_M = ttk.Radiobutton(data_frame, text="Medium (15%)", value='M', variable=self.error_correction_choice)
         error_correction_radial_Q = ttk.Radiobutton(data_frame, text="Quartile (25%)", value='Q', variable=self.error_correction_choice)
@@ -80,7 +82,7 @@ class GenerateQR:
         generate_button.grid(column=0, row=2, sticky=(E, W), padx=12)
 
         data_right_sep.grid(column=1, row=0, sticky=(N, S), rowspan=3)
-        data_bottom_sep.grid(column=0, row=7, sticky=(E, W))
+        data_bottom_sep.grid(column=0, row=7, sticky=(E, W), pady="12")
 
         # column/row configures
         self.root.columnconfigure(0, weight=1)
@@ -95,6 +97,7 @@ class GenerateQR:
         LinkedIn for self promo if ever scanned
         """
         img = qrcode.make("https://www.linkedin.com/in/vladimir-herdman/")
+        self.image_data = img
         img = ImageTk.PhotoImage(img)
 
         self.img_label = Label(self.qrcode_frame, image=img)
@@ -105,7 +108,36 @@ class GenerateQR:
         """
         Save the qrcode image to a folder/directory user chooses
         """
-        pass
+        path_to_png = asksaveasfile(initialfile = "qrcode.png", defaultextension=".png", filetypes=[("PNG Files", "*.png"), ("SVG Files", "*.svg")])
+        if path_to_png:
+            path_to_png = path_to_png.name
+
+            try:
+                file_type = path_to_png.split(".")[1]
+            except Exception:
+                raise Exception("filetype split failure")
+
+            if file_type == "png":  # save image, already png
+                self.image_data.save(path_to_png)
+            elif file_type == "svg": # recreate image as svg, and then save
+                qr = qrcode.QRCode(
+                version=None,
+                image_factory=qrcode.image.svg.SvgImage,
+                error_correction=self.error_correction[self.error_correction_choice.get()],
+                box_size=10,
+                border=4,
+                )
+
+                qr.add_data(self.data.get())
+                qr.make(fit=True)
+
+                if self.background_color.get().replace(" ", "") != "" and self.foreground_color.get().replace(" ", "") != "":
+                    img = qr.make_image(fill_color=self.foreground_color.get(), back_color=self.background_color.get())
+                else:
+                    img = qr.make_image(fill_color="black", back_color="white")
+
+                img.save(path_to_png)
+
 
     def generate_button_func(self, *args):
         """
@@ -125,7 +157,8 @@ class GenerateQR:
         else:
             img = qr.make_image(fill_color="black", back_color="white")
 
-        img = ImageTk.PhotoImage(img)
+        self.image_data = img
+        img = ImageTk.PhotoImage(img)  # qrcode.image.pil.PilImage object
         self.img_label.configure(image=img)
         self.img_label.photo = img
 
