@@ -94,7 +94,6 @@ class GenerateQR:
         save_gen_labelframe = ttk.LabelFrame(master=main_frame, padding="12 12 12 12")
         save_gen_frame = ttk.Frame(save_gen_labelframe, padding="12 12 12 12")
         save_button = ttk.Button(save_gen_frame, text="Save", width=15, command=self.save_button_func)
-        generate_button = ttk.Button(save_gen_frame, text="Generate", width=15, command=self.generate_func)
 
         data_right_sep = ttk.Separator(main_frame, orient=VERTICAL)
         data_bottom_sep = ttk.Separator(data_frame, orient=HORIZONTAL)
@@ -136,7 +135,6 @@ class GenerateQR:
         save_gen_labelframe.grid(column=2, row=2, sticky=(S, E))
         save_gen_frame.grid(column=0, row=0, stick=(N, W, S, E))
         save_button.grid(column=0, row=1, sticky=(E, W), padx=12)
-        generate_button.grid(column=0, row=2, sticky=(E, W), padx=12)
 
         data_right_sep.grid(column=1, row=0, sticky=(N, S), rowspan=3)
         data_bottom_sep.grid(column=0, row=7, sticky=(E, W), pady="12")
