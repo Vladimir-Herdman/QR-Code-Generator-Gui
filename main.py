@@ -7,9 +7,11 @@ from tkinter import colorchooser
 from tkinter.filedialog import asksaveasfile
 
 from PIL import ImageTk
+from math import sqrt
 
 class GenerateQR:
     def __init__(self, root_original):
+
         self.root = root_original
 
         self.error_correction = {
@@ -92,7 +94,7 @@ class GenerateQR:
         save_gen_labelframe = ttk.LabelFrame(master=main_frame, padding="12 12 12 12")
         save_gen_frame = ttk.Frame(save_gen_labelframe, padding="12 12 12 12")
         save_button = ttk.Button(save_gen_frame, text="Save", width=15, command=self.save_button_func)
-        generate_button = ttk.Button(save_gen_frame, text="Generate", width=15, command=self.generate_button_func)
+        generate_button = ttk.Button(save_gen_frame, text="Generate", width=15, command=self.generate_func)
 
         data_right_sep = ttk.Separator(main_frame, orient=VERTICAL)
         data_bottom_sep = ttk.Separator(data_frame, orient=HORIZONTAL)
@@ -154,6 +156,16 @@ class GenerateQR:
         background_G_entry.bind("<KeyRelease>", self.b_entry_change)
         background_B_entry.bind("<KeyRelease>", self.b_entry_change)
 
+        data_entry.bind("<KeyPress>", self.generate_func)
+
+        error_correction_radial_L.bind("<ButtonRelease-1>", self.on_radial_release)
+        error_correction_radial_M.bind("<ButtonRelease-1>", self.on_radial_release)
+        error_correction_radial_Q.bind("<ButtonRelease-1>", self.on_radial_release)
+        error_correction_radial_H.bind("<ButtonRelease-1>", self.on_radial_release)
+
+    def on_radial_release(self, *args):
+        self.root.after(10, self.generate_func)
+
     def temp_qrcode_placeholder(self):
         """
         Place temporary qrcode image in place of original qrcode spot so space
@@ -177,6 +189,7 @@ class GenerateQR:
         self.foreground_B.set(self.foreground_color[2])
 
         self.f_entry_change
+        self.generate_func()
 
     def f_entry_change(self, *args):
         if self.foreground_R.get() != "":
@@ -203,6 +216,8 @@ class GenerateQR:
 
         self.foreground_color_show.configure(background=foreground_color_hex)
 
+        self.generate_func()
+
     def b_color_chooser_func(self, *args):
         color_code = colorchooser.askcolor(title ="Choose color") 
         self.background_color = color_code[0]
@@ -212,6 +227,7 @@ class GenerateQR:
         self.background_B.set(self.background_color[2])
 
         self.b_entry_change()
+        self.generate_func()
 
     def b_entry_change(self, *args):
         if self.background_R.get() != "":
@@ -237,6 +253,8 @@ class GenerateQR:
         background_color_hex = "#" + red_B + green_B + blue_B
 
         self.background_color_show.configure(background=background_color_hex)
+
+        self.generate_func()
     
     def save_button_func(self, *args):
         """
@@ -311,7 +329,7 @@ class GenerateQR:
                 img.save(path_to_png)
 
 
-    def generate_button_func(self, *args):
+    def generate_func(self, *args):
         """
         Generate the qrcode image and show to screen in qrcode_frame
         """
