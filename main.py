@@ -186,7 +186,7 @@ class GenerateQR:
         self.foreground_G.set(self.foreground_color[1])
         self.foreground_B.set(self.foreground_color[2])
 
-        self.f_entry_change
+        self.f_entry_change()
         self.generate_func()
 
     def f_entry_change(self, *args):
