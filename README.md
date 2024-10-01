@@ -8,7 +8,13 @@ generate QR codes on data given to it.  That's all fine and dandy, but
 I didn't want to just tell him that.  So, I created this tkinter interface 
 to simplify the QR code stylization and creation process for him, and now 
 his hiking club isn't using fees for QR codes when creating club promotional 
-material.
+material.  You can just create it, it updates as you write, and then you can 
+save a PNG or SVG of the QR code, it's scannable by any phone that supports
+such functionality!
 
 It's also nice for me, I got a QR code generator I like playing with, and can 
 one day create a deprecating QR code site to take advantage of similar situations ;)
+
+![](Documentation_Images/gitQR.png)
+![](Documentation_Images/LinkedInColorQR.png)
+![](Documentation_Images/saveFunctionality.png)
