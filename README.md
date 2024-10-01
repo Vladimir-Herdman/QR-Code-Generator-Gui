@@ -16,5 +16,5 @@ It's also nice for me, I got a QR code generator I like playing with, and can
 one day create a deprecating QR code site to take advantage of similar situations ;)
 
 ![](Documentation_Images/gitQR.png)
-![](Documentation_Images/LinkedInColorQR.png)
+<video src="Documentation_Images/coloredCode.mov" width="180" controls></video>
 ![](Documentation_Images/saveFunctionality.png)
