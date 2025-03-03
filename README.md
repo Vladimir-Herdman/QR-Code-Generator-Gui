@@ -16,7 +16,8 @@ It's also nice for me, I got a QR code generator I like playing with, and can
 one day create a deprecating QR code site to take advantage of similar situations ;)
 
 <!-- Video and Documentation -->
-https://github.com/user-attachments/assets/6ea7c28b-2a63-4759-9fad-166bfeff8141
+https://github.com/user-attachments/assets/a1fc80bb-8ac9-4ec5-bce3-785e2180be5c
+
 
 ![](Documentation_Images/gitQR.png)
 
